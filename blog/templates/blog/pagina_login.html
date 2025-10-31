@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        /* Estilo para o formulário */
+        form p {
+            margin-bottom: 15px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        form input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box; /* Garante que o padding não quebre o layout */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .errorlist { /* Estilo para erros de validação (ex: senha errada) */
+            color: #d93025;
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .register-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Fazer Login</h2>
+        <p>Digite seu nome de usuário e senha.</p>
+        <hr>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            <button type="submit" class="submit-btn">Entrar</button>
+        </form>
+
+        <div class="register-link">
+            <span>Ainda não tem uma conta?</span>
+            <a href="{% url 'pagina_cadastro' %}">Cadastre-se aqui</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

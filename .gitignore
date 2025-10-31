@@ -1,1 +1,8 @@
 .venv/
+
+# Banco de dados local
+db.sqlite3
+
+# Pastas de cache do Python
+__pycache__/
+blog_project/__pycache__/

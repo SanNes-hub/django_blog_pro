@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Blog Profissional</title>
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .post {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .post:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .post-title {
+            color: #333;
+            margin-top: 0;
+        }
+        /* Adicionei este estilo para o link do título não ficar sublinhado */
+        .post-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .post-title a:hover {
+            text-decoration: underline;
+        }
+        .post-meta {
+            font-size: 0.9em;
+            color: #777;
+        }
+        .post-content {
+            color: #444;
+        }
+        .admin-links {
+            margin-top: 15px; /* Adicionado espaço acima das opções do autor */
+            padding: 10px; 
+            background-color: #f9f9f9; 
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+            <div>
+                {% if user.is_authenticated %}
+                <span style="font-weight: bold;">Olá, {{ user.username }}!</span>
+                <a href="{% url 'pagina_criar_post' %}" style="margin-left: 20px; color: #007bff; text-decoration: none; font-weight: bold;">+ Criar Novo Post</a>
+                <a href="{% url 'pagina_logout' %}" style="margin-left: 15px; color: #d93025; text-decoration: none;">Sair (Logout)</a>
+                
+                {% else %}
+                <a href="{% url 'pagina_login' %}" style="margin-right: 15px; text-decoration: none; font-weight: bold;">Login</a>
+                <a href="{% url 'pagina_cadastro' %}" style="text-decoration: none; font-weight: bold;">Cadastro</a>
+                
+                {% endif %}
+            </div>
+        </header>
+
+        <h1>Blog Profissional</h1>
+        <hr>
+
+        {% for post in posts %}
+            <article class="post">
+                <h2 class="post-title">
+                    <a href="{% url 'pagina_detalhe' post.pk %}">{{ post.titulo }}</a>
+                </h2>
+
+                <p class="post-meta">
+                    Escrito por: {{ post.autor.username }} 
+                    em {{ post.data_publicacao|date:"d/m/Y" }}
+                </p>
+
+                <div class="post-content">
+                    {{ post.conteudo|truncatewords:50 }}
+                </div>
+
+                {% if post.autor == user %}
+                    <div class="admin-links" style="margin-bottom: 20px; padding: 10px; background-color: #f9f9f9; border-radius: 5px;">
+                        <strong>Opções do Autor:</strong>
+                
+                        <a href="{% url 'pagina_editar_post' post.pk %}" style="margin-left: 10px; color: #007bff; text-decoration: none;">
+                        Editar este Post
+                        </a>
+
+                        <a href="{% url 'pagina_deletar_post' post.pk %}" style="margin-left: 15px; color: #d93025; text-decoration: none; font-weight: bold;">
+                        Deletar este Post 💣
+                        </a>
+                    </div>
+                {% endif %}
+
+            </article> {% empty %}
+            <p>Ainda não há nenhuma postagem no blog. Volte em breve!</p>
+
+        {% endfor %}
+        </div> </body>
+</html>
